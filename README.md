@@ -4,4 +4,4 @@ Using Tensorflow and will implement cv2 for video processing once the model for 
 
 I will implement code for keeping track of the model's detections, having a 'speed' variable that will be set to the current speed limit, unless there is a stop sign or something akin to one.
 
-The model has an accuracy of rougly 99%. Load it by calling tensorflow.keras.models.load_model("path-to-model") <--- Path to model would be "./Model" in this case
+The model has an accuracy of rougly 99%. Load it by calling tensorflow.keras.models.load_model("path-to-model") <--- Path to model would be "./Models" in this case
