@@ -67,32 +67,40 @@ def process_test(path, csv_path):
 
 def data_generators(BATCH_SIZE, train_path, validation_path, test_path):
     
-    preprocessor = tf.keras.preprocessing.image.ImageDataGenerator(
-        rescale= 1 / 255
+    # The dataset is already relatively modified
+    train_val_preprocessor = tf.keras.preprocessing.image.ImageDataGenerator(
+        rescale= 1 / 255,
+        rotation_range=10,
+        width_shift_range=0.1,
+        height_shift_range=0.1,
     )
 
-    train_generator = preprocessor.flow_from_directory(
+    test_preprocessor = tf.keras.preprocessing.image.ImageDataGenerator(
+        rescale= 1/ 255
+    )
+
+    train_generator = train_val_preprocessor.flow_from_directory(
         train_path,
         target_size=(60,60),
         color_mode='rgb',
-        class_mode='categorical',   # One-Hot Encoded
+        class_mode='categorical',
         batch_size=BATCH_SIZE
     )
 
-    validation_generator = preprocessor.flow_from_directory(
+    validation_generator = train_val_preprocessor.flow_from_directory(
         validation_path,
         target_size=(60,60),
         color_mode='rgb',
-        class_mode='categorical',   # Not One-Hot Encoded
+        class_mode='categorical',
         batch_size=BATCH_SIZE,
         shuffle=False
     )
 
-    test_generator = preprocessor.flow_from_directory(
+    test_generator = test_preprocessor.flow_from_directory(
         test_path,
         target_size=(60,60),
         color_mode='rgb',
-        class_mode='categorical',   # Not One-Hot Encoded
+        class_mode='categorical',
         batch_size=BATCH_SIZE,
         shuffle=False
     )

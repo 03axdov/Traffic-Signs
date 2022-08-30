@@ -7,19 +7,19 @@ from keras.applications import MobileNetV2
 from keras.models import load_model
 
 
-def streetsignsModel(n_classes):    # 8875 trainable parameters with 43 classes
+def streetsignsModel(n_classes):
     
-    input = Input(shape=(60,60,3))  # 60 - Rough mean of images height and width
+    input = Input(shape=(60,60,3))
 
     x = Conv2D(16, (3,3), activation="relu")(input)
     x = MaxPool2D()(x)
     x = BatchNormalization()(x)
 
-    x = Conv2D(32, (3,3), activation="relu")(input)
+    x = Conv2D(32, (3,3), activation="relu")(x)
     x = MaxPool2D()(x)
     x = BatchNormalization()(x)
 
-    x = Conv2D(64, (3,3), activation="relu")(input)
+    x = Conv2D(64, (3,3), activation="relu")(x)
     x = MaxPool2D()(x)
     x = BatchNormalization()(x)
 
