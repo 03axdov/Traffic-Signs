@@ -4,6 +4,7 @@ import random
 import shutil
 import numpy as np
 import pandas as pd
+import scipy
 
 import tensorflow as tf
 
@@ -67,14 +68,14 @@ def process_test(path, csv_path):
 def data_generators(BATCH_SIZE, train_path, validation_path, test_path):
     
     preprocessor = tf.keras.preprocessing.image.ImageDataGenerator(
-        rescalue= 1 / 255
+        rescale= 1 / 255
     )
 
     train_generator = preprocessor.flow_from_directory(
         train_path,
         target_size=(60,60),
         color_mode='rgb',
-        class_mode='sparse',   # Not One-Hot Encoded
+        class_mode='categorical',   # One-Hot Encoded
         batch_size=BATCH_SIZE
     )
 
@@ -82,7 +83,7 @@ def data_generators(BATCH_SIZE, train_path, validation_path, test_path):
         validation_path,
         target_size=(60,60),
         color_mode='rgb',
-        class_mode='sparse',   # Not One-Hot Encoded
+        class_mode='categorical',   # Not One-Hot Encoded
         batch_size=BATCH_SIZE,
         shuffle=False
     )
@@ -91,7 +92,7 @@ def data_generators(BATCH_SIZE, train_path, validation_path, test_path):
         test_path,
         target_size=(60,60),
         color_mode='rgb',
-        class_mode='sparse',   # Not One-Hot Encoded
+        class_mode='categorical',   # Not One-Hot Encoded
         batch_size=BATCH_SIZE,
         shuffle=False
     )
