@@ -5,6 +5,8 @@ import shutil
 import numpy as np
 import pandas as pd
 
+import tensorflow as tf
+
 def split_dataset(ds, train_split=0.9, shuffle=True):
     if shuffle:
        random.shuffle(ds)
@@ -60,3 +62,38 @@ def process_test(path, csv_path):
 
         img_path = os.path.join(path, img_name)
         shutil.move(img_path, path_to_folder)
+
+
+def data_generators(BATCH_SIZE, train_path, validation_path, test_path):
+    
+    preprocessor = tf.keras.preprocessing.image.ImageDataGenerator(
+        rescalue= 1 / 255
+    )
+
+    train_generator = preprocessor.flow_from_directory(
+        train_path,
+        target_size=(60,60),
+        color_mode='rgb',
+        class_mode='sparse',   # Not One-Hot Encoded
+        batch_size=BATCH_SIZE
+    )
+
+    validation_generator = preprocessor.flow_from_directory(
+        validation_path,
+        target_size=(60,60),
+        color_mode='rgb',
+        class_mode='sparse',   # Not One-Hot Encoded
+        batch_size=BATCH_SIZE,
+        shuffle=False
+    )
+
+    test_generator = preprocessor.flow_from_directory(
+        test_path,
+        target_size=(60,60),
+        color_mode='rgb',
+        class_mode='sparse',   # Not One-Hot Encoded
+        batch_size=BATCH_SIZE,
+        shuffle=False
+    )
+
+    return train_generator, validation_generator, test_generator
