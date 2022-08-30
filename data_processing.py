@@ -46,9 +46,17 @@ def train_validation_split(train_path, new_train_path, new_validation_path):
 
 
 def process_test(path, csv_path):
-    test = {}
 
     csv = pd.read_csv(csv_path)
     for i in range(len(csv['ClassId'])):
+
         img_name = csv['Path'][i].replace('Test/', '')
         label = csv['ClassId'][i]
+
+        path_to_folder = os.path.join(path, str(label))
+
+        if not os.path.isdir(path_to_folder):
+            os.makedirs(path_to_folder)
+
+        img_path = os.path.join(path, img_name)
+        shutil.move(img_path, path_to_folder)
